@@ -1,0 +1,11 @@
+django>=5.0
+djangorestframework
+djangorestframework-simplejwt
+psycopg2
+gunicorn
+django-select2
+django-filter
+django-cors-headers
+Pillow
+beautifulsoup4
+requests

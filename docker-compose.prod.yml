@@ -1,0 +1,8 @@
+services:
+  web:
+    command: bash -c "
+        pip install -r requirements.txt &&
+        python wait-for-db.py &&
+        python manage.py migrate &&
+        python manage.py collectstatic --noinput &&
+        gunicorn blueprint.wsgi:application --bind 0.0.0.0:${APP_PORT}"

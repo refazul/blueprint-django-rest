@@ -1,0 +1,5 @@
+.env
+static
+media
+*.json
+!manifest.json

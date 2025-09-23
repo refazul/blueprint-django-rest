@@ -1,0 +1,2 @@
+from django import forms
+from django_select2.forms import ModelSelect2Widget, ModelSelect2MultipleWidget

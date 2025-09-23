@@ -1,0 +1,25 @@
+services:
+  web:
+    command: bash -c "
+        pip install -r requirements.txt &&
+        python wait-for-db.py &&
+        python manage.py migrate &&
+        python manage.py collectstatic --noinput &&
+        python manage.py runserver 0.0.0.0:${APP_PORT}"
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    environment:
+      - APP_PORT=${APP_PORT}
+      - STATIC_URL=${STATIC_URL}
+      - MEDIA_URL=${MEDIA_URL}
+    entrypoint: ["/bin/sh", "-c"]
+    command: >
+      "envsubst '$$APP_PORT $$STATIC_URL $$MEDIA_URL' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf &&
+      nginx -g 'daemon off;'"
+    volumes:
+      - ./static:/static  # ← make sure this points to STATIC_ROOT
+      - ./media:/media  # ← make sure this points to MEDIA_ROOT
+    depends_on:
+      - web
