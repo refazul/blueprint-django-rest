@@ -19,6 +19,7 @@ services:
       "envsubst '$$APP_PORT $$STATIC_URL $$MEDIA_URL' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf &&
       nginx -g 'daemon off;'"
     volumes:
+      - ./nginx.conf.template:/etc/nginx/nginx.conf.template
       - ./static:/static  # ← make sure this points to STATIC_ROOT
       - ./media:/media  # ← make sure this points to MEDIA_ROOT
     depends_on:
