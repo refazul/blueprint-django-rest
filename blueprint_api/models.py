@@ -80,7 +80,7 @@ class CategoryAttribute(models.Model):
 
     def natural_key(self):
         return (self.slug,)
-    natural_key.dependencies = ['scffold_api.category']
+    natural_key.dependencies = ['blueprint_api.category']
 
     class Meta:
         unique_together = ('category', 'name')  # Remove slug from unique_together since it's globally unique
@@ -119,7 +119,7 @@ class CategoryAttributeChoice(models.Model):
 
     def natural_key(self):
         return (self.slug,)
-    natural_key.dependencies = ['scffold_api.categoryattribute']
+    natural_key.dependencies = ['blueprint_api.categoryattribute']
 
     class Meta:
         unique_together = ('attribute', 'value')  # Remove slug from unique_together
@@ -540,7 +540,7 @@ class CategoryImage(models.Model):
 
     def natural_key(self):
         return (self.category.slug, self.name)
-    natural_key.dependencies = ['scffold_api.category']
+    natural_key.dependencies = ['blueprint_api.category']
 
     class Meta:
         unique_together = ('category', 'name')

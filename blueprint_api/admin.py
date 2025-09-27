@@ -105,7 +105,7 @@ class ProductVariationAdmin(admin.ModelAdmin):
     
     def crawler_type(self, obj):
         """Show which crawler would be used for this variation"""
-        from scffold_api.crawlers import CrawlerFactory
+        from blueprint_api.crawlers import CrawlerFactory
         if obj.url:
             crawler = CrawlerFactory.get_crawler(obj)
             return crawler.__class__.__name__.replace('Crawler', '')
@@ -118,7 +118,7 @@ class ProductVariationAdmin(admin.ModelAdmin):
         """Action to crawl prices for selected variations"""
         from django.core.management import call_command
         from io import StringIO
-        from scffold_api.crawlers import CrawlerFactory
+        from blueprint_api.crawlers import CrawlerFactory
         
         crawled_count = 0
         success_count = 0
@@ -249,7 +249,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
     def crawlable_variations(self, obj):
         """Count of variations that can be crawled in this category"""
-        from scffold_api.models import ProductVariation
+        from blueprint_api.models import ProductVariation
         count = ProductVariation.objects.filter(
             product__categories=obj,
             is_crawling_enabled=True,
@@ -261,7 +261,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
     def crawl_category_prices(self, request, queryset):
         """Action to crawl prices for all variations in selected categories"""
-        from scffold_api.crawlers import CrawlerFactory
+        from blueprint_api.crawlers import CrawlerFactory
         import requests
         
         total_crawled = 0
@@ -276,7 +276,7 @@ class CategoryAdmin(admin.ModelAdmin):
         for category in queryset:
             # Get variations for this category
             variations = category.products.values_list('variations', flat=True)
-            from scffold_api.models import ProductVariation
+            from blueprint_api.models import ProductVariation
             variations = ProductVariation.objects.filter(
                 id__in=variations,
                 is_crawling_enabled=True,
